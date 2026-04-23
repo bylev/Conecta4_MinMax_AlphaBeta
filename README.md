@@ -99,4 +99,6 @@ docs/            # Versión estática (GitHub Pages)
 
 ---
 
-*Conecta 4 — Michelle Cámara · Estructura de Datos*
+## *Nota*: Página html creada con Claude Code.
+ 
+*Conecta 4 — Michelle Cámara · Tecnológico de Software · Estructura de Datos*
