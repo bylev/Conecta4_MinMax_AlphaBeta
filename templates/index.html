@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conecta 4 | MinMax & Alpha-Beta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- LANDING -->
+    <div class="landing" id="landing">
+        <div class="landing-card">
+            <p class="landing-eyebrow">Proyecto Final &middot; IA</p>
+            <h1 class="landing-title">Conecta <em>4</em></h1>
+            <p class="landing-sub">MinMax & Alpha-Beta con poda</p>
+            <button class="landing-btn" id="landing-btn">Jugar</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="site-wrap hidden" id="site-wrap">
+
+        <div class="scallop-bar">
+            <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path
+                    d="M0,0 Q50,55 100,0 Q150,55 200,0 Q250,55 300,0 Q350,55 400,0 Q450,55 500,0 Q550,55 600,0 Q650,55 700,0 Q750,55 800,0 Q850,55 900,0 Q950,55 1000,0 Q1050,55 1100,0 Q1150,55 1200,0 L1200,60 L0,60 Z"
+                    fill="#a8cc9e" />
+            </svg>
+        </div>
+
+        <div class="window-body">
+
+            <!-- HERO -->
+            <header class="hero" data-animate>
+                <p class="eyebrow">Estructura de Datos &middot; Prof. Didier Gamboa Angulo</p>
+                <h1 class="hero-title">.𖥔 ් ˖ ✦ ‧₊˚ ⋅</h1>
+
+                <div class="logo-title">
+                    <h1 class="hero-title main-title">Conecta</h1>
+                    <div class="cuatro">
+                        <div class="ficha a"></div>
+                        <div class="ficha b"></div>
+                        <div class="ficha c"></div>
+                        <div class="ficha d"></div>
+                        <div class="ficha e"></div>
+                        <div class="ficha f"></div>
+                        <div class="ficha g"></div>
+                        <div class="ficha h"></div>
+                    </div>
+                </div>
+                <p class="hero-lead">
+                    Enfrenta a una IA que piensa con <strong>MinMax</strong> y
+                    <strong>Alpha-Beta</strong>.
+                </p>
+            </header>
+
+            <hr class="rule">
+
+            <!-- MODO DE JUEGO -->
+            <section class="section section-center" data-animate>
+                <div class="section-label">Elige tu modo</div>
+                <h2 class="section-title">¿Cómo quieres <em>jugar</em>?</h2>
+                <p class="section-desc">Enfrenta a la IA o mira cómo dos algoritmos compiten entre sí.</p>
+
+                <div class="mode-grid">
+                    <div class="mode-card" id="mode-human">
+                        <img src="/static/img/player.jpg" alt="Jugador" class="mode-avatar">
+                        <h3 class="mode-title">Jugador vs. IA</h3>
+                        <p class="mode-desc">Tú contra la IA usando <strong>MinMax y Alpha-Beta</strong> con profundidad
+                            5.</p>
+                        <a href="/game?mode=human" class="btn-primary">Jugar</a>
+                    </div>
+                    <div class="mode-card" id="mode-ai">
+                        <img src="/static/img/ia.jpg" alt="IA" class="mode-avatar">
+                        <h3 class="mode-title">IA vs. IA</h3>
+                        <p class="mode-desc">Elige una opción</p>
+                        <div class="mode-actions">
+                            <select class="mode-select" id="ai-mode-select">
+                                <option value="/game?mode=ai_vs_ai&ai1=minmax&ai2=alphabeta">MinMax vs Alpha-Beta
+                                </option>
+                                <option value="/game?mode=ai_vs_ai&ai1=alphabeta&ai2=alphabeta">Alpha-Beta vs Alpha-Beta
+                                </option>
+                            </select>
+                            <button class="btn-primary btn-sky" onclick="playAiVsAi()">Jugar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="rule">
+
+            <!-- INFO ALGORITMOS -->
+            <section class="section section-center" data-animate>
+                <div class="section-label">Algoritmos</div>
+                <h2 class="section-title">¿Cómo <em>piensa</em> la IA?</h2>
+                <div class="algo-grid">
+                    <div class="algo-card algo-card-lg">
+                        <span class="algo-badge">MinMax</span>
+                        <p>Explora <strong>todos</strong> los nodos del árbol de búsqueda. Garantiza la mejor jugada
+                            pero evalúa muchos nodos innecesarios.</p>
+                    </div>
+                    <div class="algo-card algo-card-lg">
+                        <span class="algo-badge algo-badge--ab">Alpha-Beta</span>
+                        <p>Mismo resultado que MinMax pero <strong>poda ramas</strong> que no pueden mejorar el
+                            resultado. Hasta 70% menos nodos evaluados.</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="rule">
+
+            <!-- GRÁFICAS ÚLTIMA PARTIDA -->
+            <section class="section section-center" data-animate>
+                <div class="section-label">Informe</div>
+                <h2 class="section-title">Última <em>partida</em></h2>
+                <p class="section-desc">Comparación de nodos evaluados y tiempo de ejecución por jugada entre MinMax y
+                    Alpha-Beta.</p>
+
+                <div id="charts-empty" class="charts-empty">
+                    <p class="charts-empty-text">Aún no hay datos. ¡Juega una partida para ver las gráficas!</p>
+                </div>
+
+                <div id="charts-wrap" class="charts-grid" style="display:none;">
+                    <div class="chart-card">
+                        <h4 class="chart-title">Nodos evaluados por jugada</h4>
+                        <canvas id="chart-nodes"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h4 class="chart-title">Tiempo de ejecución por jugada</h4>
+                        <canvas id="chart-time"></canvas>
+                    </div>
+                    <div class="chart-card chart-card-full">
+                        <h4 class="chart-title">Reducción de nodos Alpha-Beta (%)</h4>
+                        <canvas id="chart-reduction"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="site-footer">
+                <p>Conecta 4 &mdash; MinMax & Alpha-Beta &middot; Estructura de Datos &mdash; Michelle Cámara aka
+                    <strong> Michi </strong>
+                </p>
+            </footer>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

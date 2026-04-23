@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conecta 4 </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="site-wrap site-wrap-visible">
+
+        <div class="scallop-bar">
+            <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path
+                    d="M0,0 Q50,55 100,0 Q150,55 200,0 Q250,55 300,0 Q350,55 400,0 Q450,55 500,0 Q550,55 600,0 Q650,55 700,0 Q750,55 800,0 Q850,55 900,0 Q950,55 1000,0 Q1050,55 1100,0 Q1150,55 1200,0 L1200,60 L0,60 Z"
+                    fill="#a8cc9e" />
+            </svg>
+        </div>
+
+        <div class="window-body">
+
+            <header class="game-header">
+                <a href="/" class="back-btn">Menú</a>
+                <h1 class="game-title">Conecta <em>4</em></h1>
+                <div class="turn-indicator" id="turn-indicator">Tu turno</div>
+            </header>
+
+            <!-- TABLERO -->
+            <div class="game-layout">
+                <div class="board-wrap">
+                    <div class="board" id="board"></div>
+                </div>
+
+                <!-- PANEL DE MÉTRICAS -->
+                <aside class="metrics-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Métricas</h3>
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label" id="player-label">Tus jugadas</span>
+                        <span class="metric-value" id="player-moves">0</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label" id="ai-label">Jugadas IA</span>
+                        <span class="metric-value" id="ai-moves">0</span>
+                    </div>
+
+                    <hr class="rule" style="margin: 1rem 0;">
+
+                    <p class="metrics-subtitle" id="metrics-subtitle">Última jugada IA</p>
+
+                    <div class="metric-row">
+                        <span class="metric-label" id="metric-label-1">MinMax Nodos</span>
+                        <span class="metric-value" id="mm-nodes">—</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label" id="metric-label-2">MinMax Tiempo</span>
+                        <span class="metric-value" id="mm-time">—</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label" id="metric-label-3">Alpha-Beta Nodos</span>
+                        <span class="metric-value sky" id="ab-nodes">—</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label" id="metric-label-4">Alpha-Beta Tiempo</span>
+                        <span class="metric-value sky" id="ab-time">—</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label" id="metric-label-5">Reducción αβ</span>
+                        <span class="metric-value highlight" id="ab-reduction">—</span>
+                    </div>
+
+                    <button class="btn-secondary" style="width:100%; margin-top:1.5rem;" onclick="newGame()">Nueva
+                        partida</button>
+                </aside>
+            </div>
+
+            <!-- MODAL RESULTADO -->
+            <div class="result-overlay hidden" id="result-overlay">
+                <div class="result-card">
+                    <p class="result-eyebrow">Partida terminada</p>
+                    <h2 class="result-title" id="result-title">¡Ganaste!</h2>
+                    <p class="result-sub" id="result-sub"></p>
+                    <div class="result-actions">
+                        <button class="btn-primary" onclick="newGame()">Jugar de nuevo</button>
+                        <a href="/" class="btn-secondary">Menú</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/game.js"></script>
+</body>
+
+</html>
