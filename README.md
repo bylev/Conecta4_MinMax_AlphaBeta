@@ -3,7 +3,7 @@
 Proyecto de **Estructura de Datos** (Prof. Didier Gamboa Angulo).  
 Implementación de Conecta 4 con inteligencia artificial basada en los algoritmos **MinMax** y **Alpha-Beta Pruning**, con métricas comparativas en tiempo real.
 
-**[Jugar en línea →](https://bylev.github.io/Conecta4_MinMax_AlphaBeta/)**
+## **[Demo](https://bylev.github.io/Conecta4_MinMax_AlphaBeta/)**
 
 ---
 
@@ -99,6 +99,6 @@ docs/            # Versión estática (GitHub Pages)
 
 ---
 
-## *Nota*: Página html creada con Claude Code.
- 
+## *Nota*: Página html creada con ayuda de Claude Code para una mejor interfaz.
+
 *Conecta 4 — Michelle Cámara · Tecnológico de Software · Estructura de Datos*
