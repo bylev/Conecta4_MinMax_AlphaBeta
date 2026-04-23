@@ -28,6 +28,10 @@ class Main:
             self.play_vs_human()
 
     def play_vs_human(self):
+        history_mm = []
+        history_ab = []
+        ai_turn_count = 0
+
         while True:
             self.game.print_board()
 
@@ -57,6 +61,7 @@ class Main:
 
             else:
                 print("IA pensando...")
+                ai_turn_count += 1
 
                 self.metrics_minmax.reset("MinMax")
                 self.metrics_minmax.start_timer()
@@ -72,7 +77,23 @@ class Main:
                 self.ai_moves += 1
                 self.turn = player
 
+                history_mm.append((ai_turn_count, self.metrics_minmax.nodes, self.metrics_minmax.time))
+                history_ab.append((ai_turn_count, self.metrics_alphabeta.nodes, self.metrics_alphabeta.time))
+
                 compare(self.metrics_minmax, self.metrics_alphabeta)
+
+        if history_mm:
+            total_mm = Metrics()
+            total_ab = Metrics()
+            total_mm.algorithm = "MinMax"
+            total_ab.algorithm = "Alpha-Beta"
+            total_mm.nodes = sum(h[1] for h in history_mm)
+            total_mm.time  = sum(h[2] for h in history_mm)
+            total_ab.nodes = sum(h[1] for h in history_ab)
+            total_ab.time  = sum(h[2] for h in history_ab)
+            print("\n=== Resumen total de la partida ===")
+            compare(total_mm, total_ab)
+            self._plot(history_mm, history_ab, titulo="Jugador vs IA")
 
     def play_ai_vs_ai(self):
         metrics_mm = Metrics()
@@ -80,8 +101,7 @@ class Main:
         turn = player
         moves_mm = 0
         moves_ab = 0
-
-        history_mm = []  # [(jugada, nodos, tiempo), ...]
+        history_mm = []
         history_ab = []
 
         print(f"\nMinMax (X, depth={DEPTH})  vs  Alpha-Beta (O, depth={DEPTH})\n")
@@ -124,16 +144,15 @@ class Main:
                 metrics_ab.report()
                 turn = player
 
-        # totales para compare()
         metrics_mm.nodes = sum(h[1] for h in history_mm)
         metrics_mm.time  = sum(h[2] for h in history_mm)
         metrics_ab.nodes = sum(h[1] for h in history_ab)
         metrics_ab.time  = sum(h[2] for h in history_ab)
         compare(metrics_mm, metrics_ab)
 
-        self._plot(history_mm, history_ab)
+        self._plot(history_mm, history_ab, titulo=f"IA vs IA (depth={DEPTH})")
 
-    def _plot(self, history_mm, history_ab):
+    def _plot(self, history_mm, history_ab, titulo="MinMax vs Alpha-Beta"):
         jugadas_mm = [h[0] for h in history_mm]
         nodos_mm   = [h[1] for h in history_mm]
         tiempo_mm  = [h[2] for h in history_mm]
@@ -143,20 +162,20 @@ class Main:
         tiempo_ab  = [h[2] for h in history_ab]
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-        fig.suptitle(f"MinMax vs Alpha-Beta  (depth={DEPTH})", fontsize=14, fontweight="bold")
+        fig.suptitle(titulo, fontsize=14, fontweight="bold")
 
         ax1.plot(jugadas_mm, nodos_mm, "o-", color="#7ea876", label="MinMax")
         ax1.plot(jugadas_ab, nodos_ab, "o-", color="#6fa0b8", label="Alpha-Beta")
-        ax1.set_title("Nodos evaluados por jugada")
-        ax1.set_xlabel("Jugada")
+        ax1.set_title("Nodos evaluados por jugada de la IA")
+        ax1.set_xlabel("Turno de la IA")
         ax1.set_ylabel("Nodos")
         ax1.legend()
         ax1.grid(True, alpha=0.3)
 
         ax2.plot(jugadas_mm, tiempo_mm, "o-", color="#7ea876", label="MinMax")
         ax2.plot(jugadas_ab, tiempo_ab, "o-", color="#6fa0b8", label="Alpha-Beta")
-        ax2.set_title("Tiempo de ejecución por jugada")
-        ax2.set_xlabel("Jugada")
+        ax2.set_title("Tiempo de ejecución por jugada de la IA")
+        ax2.set_xlabel("Turno de la IA")
         ax2.set_ylabel("Tiempo (s)")
         ax2.legend()
         ax2.grid(True, alpha=0.3)
